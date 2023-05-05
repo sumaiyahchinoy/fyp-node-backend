@@ -5,12 +5,6 @@ mongoose.connect(
   `mongodb+srv://er_dashboard:${process.env.database_password}@cluster0.2r7vtwc.mongodb.net/?retryWrites=true&w=majority`
 );
 
-// mongoose.connect(process.env.MONGODB_URI, {dbName: process.env.DATABASE_NAME}).then(() => {
-//     console.log('MongoDB connected!')
-// }).catch((err) => {
-//     console.log(err.message)
-// });
-
 // some callbacks for connection/disconnection with mongooose
 
 mongoose.connection.on("connected", () => {

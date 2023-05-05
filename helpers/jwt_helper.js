@@ -8,7 +8,7 @@ module.exports = {
       const payload = {};
       const secret = process.env.ACCESS_TOKEN_SECRET;
       const options = {
-        expiresIn: "1m",
+        expiresIn: "5m",
         issuer: "pickurpage.com",
         audience: userId,
       };
@@ -42,7 +42,7 @@ module.exports = {
       const payload = {};
       const secret = process.env.REFRESH_TOKEN_SECRET;
       const options = {
-        expiresIn: "1y",
+        expiresIn: "1d",
         issuer: "pickurpage.com",
         audience: userId,
       };

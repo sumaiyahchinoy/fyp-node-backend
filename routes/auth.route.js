@@ -5,10 +5,17 @@ const User = require("../Models/User.model");
 const { authSchema } = require("../helpers/validation_schema");
 const {
   signAccessToken,
+  verifyAccessToken,
   signRefreshToken,
   verifyRefreshToken,
 } = require("../helpers/jwt_helper");
 const { verify } = require("jsonwebtoken");
+
+router.get("/", verifyAccessToken, async (req, res, next) => {
+  res.status(200).json({
+    status: "active",
+  });
+});
 
 router.post("/register", async (req, res, next) => {
   try {
@@ -49,7 +56,8 @@ router.post("/login", async (req, res, next) => {
     const isMatch = await user.isValidPassword(result.password);
     if (!isMatch) throw createError.Unauthorized("Username/Password not Valid");
 
-    const accessToken = await signAccessToken(user.id);
+    const userId = user.id;
+    const accessToken = await signAccessToken(userId);
     const refreshToken = await signRefreshToken(user.id);
 
     res.send({ accessToken, refreshToken });
@@ -62,22 +70,17 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/refresh-token", async (req, res, next) => {
   try {
-    const { refreshToken } = req.body;
-    if (!refreshToken) throw createError.BadRequest();
+    const { refToken } = req.body;
+    if (!refToken) throw createError.BadRequest();
 
-    const userId = await verifyRefreshToken(refreshToken);
+    const userId = await verifyRefreshToken(refToken);
     const accessToken = await signAccessToken(userId);
-    const refToken = await signRefreshToken(userId);
+    const refreshToken = await signRefreshToken(userId);
 
-    res.send({ accessToken, refToken });
+    res.send({ accessToken, refreshToken });
   } catch (error) {
     next(error);
   }
-});
-
-//For log out http post should be delete
-router.delete("/logout", async (req, res, next) => {
-  res.send("logout route");
 });
 
 module.exports = router;
