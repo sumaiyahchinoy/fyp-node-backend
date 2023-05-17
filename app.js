@@ -16,6 +16,10 @@ const authRoute = require("./routes/auth.route");
 
 app.use("/auth", authRoute);
 
+app.use("/test", async (req, res, next) => {
+  res.send("Hello World");
+});
+
 app.use(async (req, res, next) => {
   next(createError.NotFound());
   // without next(), the browser will hang. next tells the express object to move on
