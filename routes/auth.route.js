@@ -13,7 +13,7 @@ const { verify } = require("jsonwebtoken");
 
 router.get("/", verifyAccessToken, async (req, res, next) => {
   res.status(200).json({
-    status: "active",
+    status: true,
   });
 });
 
