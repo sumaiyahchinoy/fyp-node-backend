@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const createError = require("http-errors");
-const User = require("../Models/User.model");
+const User = require("../models/user.model");
 const { authSchema } = require("../helpers/validation_schema");
 const {
   signAccessToken,
